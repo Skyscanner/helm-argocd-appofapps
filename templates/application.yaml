@@ -1,0 +1,35 @@
+{{- $dot := . }}
+{{- $wave_counter := 0 }}
+{{- range $cluster_name, $cluster_address := .Values.clusters }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ include "appofapps.name" $dot }}-{{ $cluster_name }}
+  namespace: {{ $.Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ $wave_counter | quote }} 
+  labels: {{ nindent 3 (include "appofapps.labels" $dot) }}
+spec:
+  destination:
+    server: {{ $cluster_address | quote }}
+    namespace: default
+  project: default
+  source:
+    chart: {{ $.Values.remoteChart.name | default "prometheus" }}
+    repoURL: {{ $.Values.remoteChart.repo | default "https://kubernetes-charts.storage.googleapis.com" }}
+    targetRevision: {{ $.Values.remoteChart.revision | default "11.12.0" }}
+    {{- if $.Values.remoteChart.values }}
+    helm:
+      values: {{ nindent 7 (toYaml $.Values.remoteChart.values) }}
+    {{- end }}
+  {{- if $.Values.autosync }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  {{- end }}
+{{- if $.Values.sequential }}
+{{- $wave_counter = add1 ($wave_counter) }}
+{{- end }}
+{{- end }}
