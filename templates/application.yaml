@@ -16,9 +16,9 @@ spec:
     namespace: default
   project: default
   source:
-    chart: {{ $.Values.remoteChart.name | default "prometheus" }}
-    repoURL: {{ $.Values.remoteChart.repo | default "https://kubernetes-charts.storage.googleapis.com" }}
-    targetRevision: {{ $.Values.remoteChart.revision | default "11.12.0" }}
+    chart: {{ $.Values.remoteChart.name }}
+    repoURL: {{ $.Values.remoteChart.repo }}
+    targetRevision: {{ $.Values.remoteChart.revision }}
     {{- if $.Values.remoteChart.values }}
     helm:
       values: {{ nindent 7 (toYaml $.Values.remoteChart.values) }}

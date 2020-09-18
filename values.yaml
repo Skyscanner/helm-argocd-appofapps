@@ -13,8 +13,8 @@ autosync: true
 sequential: true
 
 remoteChart:
-  name: "prometheus"
-  repo: "https://kubernetes-charts.storage.googleapis.com"
-  revision: "11.12.0"
-  values: {}
+  name: ""      # Chart name to deploy in the remote clusters
+  revision: ""  # Chart revision
+  repo: ""      # Repository where the chart lives
+  values: {}    # Values to pass on to the chart on the remote clusters
 
