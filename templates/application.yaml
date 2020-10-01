@@ -13,8 +13,8 @@ metadata:
 spec:
   destination:
     server: {{ $cluster_address | quote }}
-    namespace: default
-  project: default
+    namespace: {{ $.Values.remoteChart.namespace }}
+  project: {{ $.Values.projectName }}
   source:
     chart: {{ $.Values.remoteChart.name }}
     repoURL: {{ $.Values.remoteChart.repo }}
@@ -23,12 +23,10 @@ spec:
     helm:
       values: {{ nindent 7 (toYaml $.Values.remoteChart.values) }}
     {{- end }}
-  {{- if $.Values.autosync }}
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
-  {{- end }}
+      prune: {{ $.Values.syncPolicy.prune }}
+      selfHeal: {{ $.Values.syncPolicy.selfHeal }}
 {{- if $.Values.sequential }}
 {{- $wave_counter = add1 ($wave_counter) }}
 {{- end }}
