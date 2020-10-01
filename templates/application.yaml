@@ -1,0 +1,33 @@
+{{- $dot := . }}
+{{- $wave_counter := 0 }}
+{{- range $cluster_name, $cluster_address := .Values.clusters }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ include "appofapps.name" $dot }}-{{ $cluster_name }}
+  namespace: {{ $.Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ $wave_counter | quote }} 
+  labels: {{ nindent 3 (include "appofapps.labels" $dot) }}
+spec:
+  destination:
+    server: {{ $cluster_address | quote }}
+    namespace: {{ $.Values.remoteChart.namespace }}
+  project: {{ $.Values.projectName }}
+  source:
+    chart: {{ $.Values.remoteChart.name }}
+    repoURL: {{ $.Values.remoteChart.repo }}
+    targetRevision: {{ $.Values.remoteChart.revision }}
+    {{- if $.Values.remoteChart.values }}
+    helm:
+      values: {{ nindent 7 (toYaml $.Values.remoteChart.values) }}
+    {{- end }}
+  syncPolicy:
+    automated:
+      prune: {{ $.Values.syncPolicy.prune }}
+      selfHeal: {{ $.Values.syncPolicy.selfHeal }}
+{{- if $.Values.sequential }}
+{{- $wave_counter = add1 ($wave_counter) }}
+{{- end }}
+{{- end }}

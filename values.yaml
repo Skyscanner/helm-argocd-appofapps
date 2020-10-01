@@ -1,0 +1,25 @@
+# Default values for appofapps
+
+# clusters is a dictionary listing the target clusters
+# clusters:
+#   cluster1: 'https://cluster1-addr1:por1'
+#   cluster2: 'https://cluster2-addr2:por2'
+clusters: {}
+
+# project name
+projectName: "default"
+
+# the applications will automatically sync
+syncPolicy:
+  prune: true
+  selfHeal: true
+
+# the clusters will be rolled out one after the other
+sequential: true
+
+remoteChart:
+  name: ""              # Chart name to deploy in the remote clusters
+  revision: ""          # Chart revision
+  repo: ""              # Repository where the chart lives
+  namespace: "default"  # target Namespace
+  values: {}            # Values to pass on to the chart on the remote clusters

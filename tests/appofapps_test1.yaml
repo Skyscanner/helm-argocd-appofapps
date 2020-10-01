@@ -1,0 +1,14 @@
+remoteChart:
+  name: "prometheus"
+  namespace: "target_namespace"
+  repo: "https://kubernetes-charts.storage.googleapis.com"
+  revision: "11.12.0"
+  values:
+    key1: 'value1'
+    key2:
+      test1: 'val1'
+      test2: 'val2'
+autosync: true
+clusters:
+  cluster1: 'http://addr1:1234'
+  cluster2: 'http://addr2:3456'
