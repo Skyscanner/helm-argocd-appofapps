@@ -1,25 +1,36 @@
 # Default values for appofapps
 
-# clusters is a dictionary listing the target clusters
+# clusters -- (map) Target clusters
+clusters: {}
+# e.g.:
 # clusters:
 #   cluster1: 'https://cluster1-addr1:por1'
 #   cluster2: 'https://cluster2-addr2:por2'
-clusters: {}
 
-# project name
-projectName: "default"
+# projectName -- (string) Name of the destination project in ArgoCD
+projectName: default
 
 # the applications will automatically sync
 syncPolicy:
+  # syncPolicy.prune -- (bool) Automatically prune resources
   prune: true
+  # syncPolicy.selfHeal -- (bool) Automatically heal drifted resources
   selfHeal: true
 
-# the clusters will be rolled out one after the other
+# sequential -- (bool) if `true`, the clusters will be rolled out one after
+# the other, otherwise they will be deployed in parallel
 sequential: true
 
 remoteChart:
-  name: ""              # Chart name to deploy in the remote clusters
-  revision: ""          # Chart revision
-  repo: ""              # Repository where the chart lives
-  namespace: "default"  # target Namespace
-  values: {}            # Values to pass on to the chart on the remote clusters
+  # remoteChart.repo -- (string) Repository where the Chart can be found
+  repo:
+  # remoteChart.name -- (string) Chart name to deploy in the remote clusters
+  name:
+  # remoteChart.revision -- (string) Chart revision
+  revision: 
+  # remoteChart.namespace -- (string) Target namespace for the Chart to be
+  # applied to
+  namespace: default
+  # remoteChart.values -- (object) Values to pass on to the chart on the remote
+  # clusters
+  values: {}

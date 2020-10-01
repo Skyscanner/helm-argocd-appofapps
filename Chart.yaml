@@ -1,6 +1,10 @@
 apiVersion: v2
 name: appofapps
-description: a Helm chart that follows the app of apps pattern
+description: |
+  a Helm chart that follows the app of apps pattern.
+  It is used as a simple mechanism to implement a progressive deployment.
+
+  Documentation generated with [helm-docs](https://github.com/norwoodj/helm-docs).
 type: application
-version: 0.0.1
+version: 0.0.2
 appVersion: 0.0.1
