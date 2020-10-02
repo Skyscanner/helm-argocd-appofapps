@@ -15,9 +15,9 @@ jobs:
         curl -sSL https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz -o helm-${HELM_VERSION}-linux-amd64.tar.gz \
         && curl -sSL https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz.sha256sum -o helm-${HELM_VERSION}-linux-amd64.tar.gz.sha256sum \
         && echo "${HELM_CHECKSUM} helm-${HELM_VERSION}-linux-amd64.tar.gz" | sha256sum -c \
+        && tar zxvf helm-${HELM_VERSION}-linux-amd64.tar.gz \
         && sudo mv -v linux-amd64/helm /usr/local/bin/helm \
         && rm -vrf linux-amd64
-    - name: SHA check
     - name: Lint
       run: helm lint .
     - name: Should template test1
