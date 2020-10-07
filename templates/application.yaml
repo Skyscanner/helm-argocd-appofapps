@@ -21,7 +21,7 @@ spec:
     targetRevision: {{ $.Values.remoteChart.revision }}
     {{- if $.Values.remoteChart.values }}
     helm:
-      values: {{ nindent 7 (toYaml $.Values.remoteChart.values) }}
+      values: | {{ nindent 7 (toYaml $.Values.remoteChart.values) }}
     {{- end }}
   syncPolicy:
     automated:
